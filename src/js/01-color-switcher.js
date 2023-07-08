@@ -12,7 +12,7 @@ stopButton.addEventListener('click', stopChangingColor);
 
 function startChangingColor() {
   startButton.disabled = true;
-  intervalId = setInterval(changeBackgroundColor, 1000);
+  const intervalId = setInterval(changeBackgroundColor, 1000);
 }
 
 function stopChangingColor() {
