@@ -10,9 +10,10 @@ function getRandomHexColor() {
 startButton.addEventListener('click', startChangingColor);
 stopButton.addEventListener('click', stopChangingColor);
 
+let intervalId;
 function startChangingColor() {
   startButton.disabled = true;
-  const intervalId = setInterval(changeBackgroundColor, 1000);
+  intervalId = setInterval(changeBackgroundColor, 1000);
 }
 
 function stopChangingColor() {
