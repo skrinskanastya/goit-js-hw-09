@@ -12,7 +12,7 @@ const options = {
       window.alert('Please choose a date in the future');
       document.querySelector('button[data-start]').disabled = true;
     } else {
-      document.querySelector('button[data-start]').disabled = false;
+      document.querySelector('button[data-start]').disabled = true;
       const timerFields = document.querySelectorAll('.timer .value');
       const endDate = selectedDate.getTime();
 
