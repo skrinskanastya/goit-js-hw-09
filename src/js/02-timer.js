@@ -10,9 +10,10 @@ const options = {
 
     if (selectedDate <= new Date()) {
       window.alert('Please choose a date in the future');
-      document.querySelector('button[data-start]').disabled = true;
+      const startButton = document.querySelector('button[data-start]');
+      startButton.disabled = true;
     } else {
-      document.querySelector('button[data-start]').disabled = true;
+      startButton.disabled = false;
       const timerFields = document.querySelectorAll('.timer .value');
       const endDate = selectedDate.getTime();
 
@@ -58,3 +59,6 @@ function convertMs(ms) {
 function addLeadingZero(value) {
   return String(value).padStart(2, '0');
 }
+
+const startButton = document.querySelector('button[data-start]');
+startButton.disabled = true;
