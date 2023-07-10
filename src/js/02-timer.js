@@ -1,5 +1,8 @@
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
+
+const startButton = document.querySelector('button[data-start]');
+
 const options = {
   enableTime: true,
   time_24hr: true,
@@ -10,37 +13,15 @@ const options = {
 
     if (selectedDate <= new Date()) {
       window.alert('Please choose a date in the future');
-      const startButton = document.querySelector('button[data-start]');
       startButton.disabled = true;
     } else {
+      startButton.addEventListener('click', startTimer);
       startButton.disabled = false;
-      const timerFields = document.querySelectorAll('.timer .value');
-      const endDate = selectedDate.getTime();
-
-      function updateTimer() {
-        const currentDate = new Date().getTime();
-        const remainingTime = endDate - currentDate;
-
-        if (remainingTime <= 0) {
-          clearInterval(timerInterval);
-          timerFields.forEach(field => (field.textContent = '00'));
-          return;
-        }
-
-        const { days, hours, minutes, seconds } = convertMs(remainingTime);
-
-        timerFields[0].textContent = addLeadingZero(days);
-        timerFields[1].textContent = addLeadingZero(hours);
-        timerFields[2].textContent = addLeadingZero(minutes);
-        timerFields[3].textContent = addLeadingZero(seconds);
-      }
-
-      const timerInterval = setInterval(updateTimer, 1000);
     }
   },
 };
 
-flatpickr('#datetime-picker', options);
+const flatpickrInstance = flatpickr('#datetime-picker', options);
 
 function convertMs(ms) {
   const second = 1000;
@@ -60,5 +41,30 @@ function addLeadingZero(value) {
   return String(value).padStart(2, '0');
 }
 
-const startButton = document.querySelector('button[data-start]');
+function startTimer() {
+  startButton.disabled = true;
+  const timerFields = document.querySelectorAll('.timer .value');
+  const endDate = flatpickrInstance.selectedDates[0].getTime();
+
+  function updateTimer() {
+    const currentDate = new Date().getTime();
+    const remainingTime = endDate - currentDate;
+
+    if (remainingTime <= 0) {
+      clearInterval(timerInterval);
+      timerFields.forEach(field => (field.textContent = '00'));
+      return;
+    }
+
+    const { days, hours, minutes, seconds } = convertMs(remainingTime);
+
+    timerFields[0].textContent = addLeadingZero(days);
+    timerFields[1].textContent = addLeadingZero(hours);
+    timerFields[2].textContent = addLeadingZero(minutes);
+    timerFields[3].textContent = addLeadingZero(seconds);
+  }
+
+  const timerInterval = setInterval(updateTimer, 1000);
+}
+
 startButton.disabled = true;
